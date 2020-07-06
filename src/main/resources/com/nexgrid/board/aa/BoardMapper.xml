@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nexgrid.board.mapper.BoardMapper">
+
+	<select id="boardSelectList" resultType="com.nexgrid.board.vo.BoardVO">
+        select room_idx,user_name,title,content_text,upload_date from EX_BOARD where room_idx  between #{skipPageStart} and #{skipPageEnd} order by room_idx desc
+    </select>
+
+	<select id="boardSelectSize" resultType="com.nexgrid.board.vo.BoardVO">
+        select room_idx from EX_BOARD
+    </select>
+
+
+
+	<insert id="boardInsert" >
+        insert into EX_BOARD(room_idx,user_name,title,content_text) values(ROOM_SEQUENCE.NEXTVAL,#{user_name},#{title},#{content_text})
+    </insert>
+
+	<update id="boarUpDate" >
+        update EX_BOARD
+            set user_name=#{user_name},title=#{title},content_text=#{content_text},upload_date=SYSDATE
+        where room_idx=#{room_idx}
+    </update>
+
+
+	<update id="boarClickIdx">
+        update EX_BOARD
+            set click_idx = click_idx+1
+        where room_idx=#{room_idx}
+    </update>
+
+
+	<delete id="boardDelete">
+        delete from EX_BOARD where room_idx=#{room_idx}
+    </delete>
+
+	<select id="boardDetail" resultType="com.nexgrid.board.vo.BoardVO">
+        select room_idx,user_name,title,content_text,first_date,upload_date from EX_BOARD where room_idx=#{room_idx}
+    </select>
+
+</mapper>
+
